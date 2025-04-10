@@ -15,7 +15,8 @@ sections:
       text: |
         <br>
         
-        The **S**oftware **E**ngineering **A**wareness **N**etwork is ...
+        The **S**oftware **E**ngineering **A**wareness **N**etwork is an international network funded for 5 years (2025-2030) by {{< ins2i >}} under the {{< irn >}} program.
+
   
   - block: collection
     content:

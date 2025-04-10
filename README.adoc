@@ -1,0 +1,23 @@
+= Software Engineering Awareness Network
+:ins2i: https://www.ins2i.cnrs.fr/[CNRS Informatics]
+:irn: https://www.ins2i.cnrs.fr/fr/international[International Research Network]
+:url: https://jmbruel.github.io/sean/
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+WARNING: Site under construction. The published version is at https://jmbruel.github.io/sean/.
+
+Welcome to the SEAN project website.
+
+This project is funded for 5 years (2025-2030) by {ins2i} under the {irn} program.
+
+
+
+
+

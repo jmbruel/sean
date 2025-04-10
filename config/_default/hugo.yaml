@@ -3,8 +3,8 @@
 # Hugo Documentation: https://gohugo.io/getting-started/configuration/#all-configuration-settings
 # This file is formatted using YAML syntax - learn more at https://learnxinyminutes.com/docs/yaml/
 
-title: Software Engineering Awareness Network # Website name
-baseURL: 'https://example.com/' # Website URL
+title: SEAN # Website name
+baseURL: 'https://jmbruel.github.io/sean/' # Website URL
 
 ############################
 ## LANGUAGE
@@ -19,7 +19,7 @@ removePathAccents: true
 ## ADVANCED
 ############################
 
-enableGitInfo: false
+enableGitInfo: true
 summaryLength: 30
 pagination:
   pagerSize: 10
