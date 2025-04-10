@@ -2,4 +2,4 @@
 
 Welcome to the SEAN project website.
 
-THis project is funded by CNRS under the IRN program.
+This project is funded by {{< ins2i >}} under the {{< irn >}} program.

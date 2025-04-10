@@ -1,6 +1,6 @@
 ---
 title: SEAN project accepted for 5
-date: 2025-04-10
+date: 2025-01-01
 image:
   focal_point: 'top'
 ---
