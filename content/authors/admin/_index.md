@@ -4,7 +4,7 @@ title: Jean-Michel Bruel
 
 # Username (this should match the folder name)
 authors:
-- jmb
+- admin
 
 # Is this the primary user of the site?
 superuser: true
@@ -71,14 +71,14 @@ social:
 
 
 # Enter email to display Gravatar (if Gravatar enabled in Config)
-email: "jbruel@gmail.com"
+email: "jean-michel.bruel@irit.fr"
 
 # Highlight the author in author lists? (true/false)
 highlight_name: true
 
 # Organizational groups that you belong to (for People widget)
 #   Set this to `[]` or comment out if you are not using People widget.
-user_groups: []
+user_groups: [Principal Investigator]
 #- Researchers associated to SM@RT
 ---
 
