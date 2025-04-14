@@ -1,5 +1,5 @@
 ---
-title: SEAN project accepted for 5
+title: SEAN project accepted for 5 years!
 date: 2025-01-01
 image:
   focal_point: 'top'
