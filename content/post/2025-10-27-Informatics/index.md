@@ -1,6 +1,6 @@
 ---
 title: Informatics Europe Leaders Summit
-date: 2025-10-27
+date: 2025-07-08
 image:
   focal_point: 'top'
 
