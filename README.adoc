@@ -17,6 +17,16 @@ Welcome to the SEAN project website.
 
 This project is funded for 5 years (2025-2030) by {ins2i} under the {irn} program.
 
+// France (Jean-Michel)
+// Spain (Elena/Tanja)
+// Sweden (Emil)
+// The Netherlands (Tanja/Tijs/Michel)
+// Italy (Luciano/Elisabetta)
+// Germany (Regina)
+// Switzerland (Timo)
+// UK (Steffen)
+// Ireland (Lionel Briand) Anthony Ventresque <anthony.ventresque@tcd.ie>
+// Belgium (Gilles Perrouin) <gilles.perrouin@unamur.be>
 
 
 
