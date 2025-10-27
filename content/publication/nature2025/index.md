@@ -38,8 +38,7 @@ publication_types: ['journal']
 publication: In *Nature*
 # publication_short: In *ICW*
 
-# abstract: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus. Vestibulum sit amet erat at nulla eleifend gravida.
-
+abstract: From short scripts to vast simulations of Earth's climate, protein structures or even the cosmos, it is hard to imagine scientific research without software. Scientists use software code in myriad ways -to plan experiments; to record, organize, analyse, visualize and archive data; to control scientific instruments, and more. But software evolves. Most open-source software used in research is refined both iteratively and collectively, and has no published 'version of record'. Updates can target various versions and releases, meaning that each aspect of the software -the project as a whole, a specific version or a single file -can require a different way to refer to it. This creates confusion. And so software comes with a double bind: like data, it supports the findings of a study and should be preserved and published. Yet it should also remain available and supported, and possibly be improved, over time. Scholars, librarians, research institutions and funding agencies are wrestling with how to reconcile these two requirements.
 # Summary. An optional shortened abstract.
 # summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum.
 
@@ -53,7 +52,7 @@ featured: true
 # - name: Custom Link
 #   url: http://example.org
 
-url_pdf: 'informaticsEurope2025.pdf'
+# url_pdf: ''
 # url_code: 'https://github.com/HugoBlox/hugo-blox-builder'
 # url_dataset: 'https://github.com/HugoBlox/hugo-blox-builder'
 # url_poster: ''
