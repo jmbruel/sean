@@ -64,7 +64,7 @@ sections:
       count: 5
       filters:
         folders:
-          - publication
+          - reference
         publication_type: 'article'
     design:
       view: citation
