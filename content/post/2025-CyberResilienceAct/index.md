@@ -1,6 +1,6 @@
 ---
-title: Informatics Europe Leaders Summit
-date: 2025-07-08
+title: Cyber Resilience Act
+date: 2025-10-27
 image:
   focal_point: 'top'
 
