@@ -13,8 +13,9 @@ image:
 The 2025 edition of the European Informatics Leaders Summit will be held from 27 to 29 October in Rennes, France, and will be co-hosted by Informatics Europe and our member institution, IRISA, as part of its 50th anniversary celebrations.
 
 {{< SEAN >}} and the European initiative lead by {{< VERSEN >}} will meet during this event.
+{{< SEAN >}} (and CNRS) has sponsored the event.
 
-
+![Sponsorship](ecss2025-sponsorship.jpg "SEAN and CNRS, proud sponsors of the event")
 
 ---
 title: European Informatics Leaders Summit
