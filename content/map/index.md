@@ -49,6 +49,62 @@ sections:
             { name: 'Timo Kehrer', country: 'Switzerland', lat: 46.9479, lng: 7.4474, org: 'University of Bern' }
           ];
           
+          // Country code mapping for easier lookup
+          const countryData = {
+            'France': { code: 'FR', color: '#FF6B6B' },
+            'Canada': { code: 'CA', color: '#4ECDC4' },
+            'Portugal': { code: 'PT', color: '#45B7D1' },
+            'Italy': { code: 'IT', color: '#96CEB4' },
+            'Switzerland': { code: 'CH', color: '#FFEAA7' },
+            'Belgium': { code: 'BE', color: '#DDA0DD' },
+            'United Kingdom': { code: 'GB', color: '#FFB6C1' }
+          };
+          
+          // Create a set of unique countries with team members
+          const activeCountries = new Set(teamMembers.map(m => m.country));
+          
+          // Add GeoJSON layer with country highlighting
+          fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
+            .then(response => response.json())
+            .then(data => {
+              L.geoJSON(data, {
+                style: function(feature) {
+                  const countryName = feature.properties.name;
+                  if (activeCountries.has(countryName)) {
+                    const color = countryData[countryName]?.color || '#90EE90';
+                    return {
+                      fillColor: color,
+                      weight: 2,
+                      opacity: 0.8,
+                      color: '#333',
+                      fillOpacity: 0.5
+                    };
+                  }
+                  return {
+                    fillColor: '#f0f0f0',
+                    weight: 1,
+                    opacity: 0.3,
+                    color: '#ccc',
+                    fillOpacity: 0.1
+                  };
+                },
+                onEachFeature: function(feature, layer) {
+                  const countryName = feature.properties.name;
+                  if (activeCountries.has(countryName)) {
+                    const members = teamMembers.filter(m => m.country === countryName);
+                    const membersList = members.map(m => `<li>${m.name}</li>`).join('');
+                    layer.bindPopup(`
+                      <div style="font-weight: bold; font-size: 1.1em;">${countryName}</div>
+                      <div style="margin-top: 8px;">
+                        <strong>Team Members:</strong>
+                        <ul style="margin: 4px 0; padding-left: 20px;">${membersList}</ul>
+                      </div>
+                    `);
+                  }
+                }
+              }).addTo(map);
+            });
+          
           // Add markers for each team member
           teamMembers.forEach(member => {
             const marker = L.circleMarker([member.lat, member.lng], {
@@ -56,8 +112,8 @@ sections:
               fillColor: '#1976d2',
               color: '#004ba0',
               weight: 2,
-              opacity: 0.8,
-              fillOpacity: 0.7
+              opacity: 0.9,
+              fillOpacity: 0.8
             }).addTo(map);
             
             marker.bindPopup(`
@@ -66,17 +122,6 @@ sections:
               <div style="font-size: 0.85em; color: #999;">${member.org}</div>
             `);
           });
-          
-          // Highlight countries with team members
-          const countryCodes = {
-            'FR': 'France',
-            'CA': 'Canada',
-            'PT': 'Portugal',
-            'IT': 'Italy',
-            'CH': 'Switzerland',
-            'BE': 'Belgium',
-            'GB': 'United Kingdom'
-          };
           
           // Add a legend
           const legend = L.control({ position: 'bottomright' });
@@ -87,12 +132,15 @@ sections:
             div.style.borderRadius = '4px';
             div.style.boxShadow = '0 0 15px rgba(0,0,0,0.2)';
             div.innerHTML = `
-              <div style="font-weight: bold; margin-bottom: 8px;">Team Locations</div>
-              <div style="font-size: 0.9em;">
-                🔵 Team Member Location
+              <div style="font-weight: bold; margin-bottom: 8px;">Legend</div>
+              <div style="font-size: 0.9em; margin-bottom: 6px;">
+                <span style="display: inline-block; width: 12px; height: 12px; background-color: #1976d2; border-radius: 50%; margin-right: 6px;"></span> Team Member
+              </div>
+              <div style="font-size: 0.9em; margin-bottom: 6px;">
+                <span style="display: inline-block; width: 12px; height: 12px; background-color: #FF6B6B; opacity: 0.4; margin-right: 6px;"></span> Country with Team
               </div>
               <div style="font-size: 0.85em; color: #666; margin-top: 8px;">
-                Click markers for details
+                Click markers or countries for details
               </div>
             `;
             return div;
