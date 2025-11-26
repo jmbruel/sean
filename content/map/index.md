@@ -63,98 +63,47 @@ sections:
           // Create a set of unique countries with team members
           const activeCountries = new Set(teamMembers.map(m => m.country));
           
-          // Add GeoJSON layer with country highlighting (robust matching)
-          fetch('countries.geo.json')
+          // Add GeoJSON layer with country highlighting
+          fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
             .then(response => response.json())
             .then(data => {
-              const highlightColor = '#4ECDC4';
-
-              const normalize = s => (s || '')
-                .toString()
-                .toLowerCase()
-                .replace(/\(.*?\)/g, '')
-                .replace(/[^a-z0-9 ]+/g, ' ')
-                .replace(/\s+/g, ' ')
-                .trim();
-
-              const alias = {
-                'uk': 'united kingdom',
-                'united kingdom of great britain and northern ireland': 'united kingdom',
-                'ivory coast': "cote d'ivoire",
-                'russia': 'russian federation'
-              };
-
-              const activeList = Array.from(activeCountries);
-              const activeNorms = activeList.reduce((acc, name) => {
-                acc[normalize(name)] = name;
-                return acc;
-              }, {});
-
-              const matchedGeoNames = new Set();
-
-              function findTeamCountry(geoName) {
-                if (!geoName) return null;
-                const n = normalize(geoName);
-                if (activeNorms[n]) return activeNorms[n];
-                if (alias[n] && activeNorms[alias[n]]) return activeNorms[alias[n]];
-                for (const k of Object.keys(activeNorms)) {
-                  if (n === k) return activeNorms[k];
-                  if (n.indexOf(k) !== -1) return activeNorms[k];
-                  if (k.indexOf(n) !== -1) return activeNorms[k];
-                }
-                return null;
-              }
-
               L.geoJSON(data, {
-                style(feature) {
-                  const props = feature.properties || {};
-                  const geoName = props.name || props.ADMIN || props.NAME || '';
-                  const teamCountry = findTeamCountry(geoName);
-                  if (teamCountry) {
-                    matchedGeoNames.add(geoName);
+                style: function(feature) {
+                  const countryName = feature.properties.name;
+                  if (activeCountries.has(countryName)) {
+                    const color = countryData[countryName]?.color || '#90EE90';
                     return {
-                      fillColor: highlightColor,
+                      fillColor: color,
                       weight: 2,
-                      opacity: 0.9,
-                      color: '#2a7f7e',
-                      fillOpacity: 0.55
+                      opacity: 0.8,
+                      color: '#333',
+                      fillOpacity: 0.5
                     };
                   }
                   return {
                     fillColor: '#f0f0f0',
-                    weight: 0.5,
+                    weight: 1,
                     opacity: 0.3,
-                    color: '#ddd',
-                    fillOpacity: 0.06
+                    color: '#ccc',
+                    fillOpacity: 0.1
                   };
                 },
-                onEachFeature(feature, layer) {
-                  const props = feature.properties || {};
-                  const geoName = props.name || props.ADMIN || props.NAME || '';
-                  const teamCountry = findTeamCountry(geoName);
-                  if (teamCountry) {
-                    const members = teamMembers.filter(m => m.country === teamCountry);
+                onEachFeature: function(feature, layer) {
+                  const countryName = feature.properties.name;
+                  if (activeCountries.has(countryName)) {
+                    const members = teamMembers.filter(m => m.country === countryName);
                     const membersList = members.map(m => `<li>${m.name}</li>`).join('');
                     layer.bindPopup(`
-                      <div style="font-weight: bold; font-size: 1.1em;">${teamCountry}</div>
+                      <div style="font-weight: bold; font-size: 1.1em;">${countryName}</div>
                       <div style="margin-top: 8px;">
                         <strong>Team Members:</strong>
                         <ul style="margin: 4px 0; padding-left: 20px;">${membersList}</ul>
                       </div>
                     `);
-                    layer.on('mouseover', () => layer.setStyle({ weight: 3 }));
-                    layer.on('mouseout', () => layer.setStyle({ weight: 2 }));
                   }
                 }
               }).addTo(map);
-
-              // Debug: log what matched and what didn't
-              setTimeout(() => {
-                console.info('Active countries:', activeList);
-                console.info('Matched Geo feature names (sample):', Array.from(matchedGeoNames).slice(0,20));
-              }, 300);
-            })
-            .catch(err => console.error('Error loading GeoJSON:', err));
+            });
           
           // Add markers for each team member
           teamMembers.forEach(member => {
