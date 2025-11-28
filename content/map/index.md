@@ -158,6 +158,7 @@ sections:
         | 🇮🇹 Italy | Antonia Bertolina |
         | 🇨🇭 Switzerland | Bertrand Meyer, Timo Kehrer |
         | 🇧🇪 Belgium | Gilles Perrouin |
+        | 🇱🇺 Luxembourg | Jordi Cabot |
         | 🇬🇧 United Kingdom | Steffen Zschaler |
 
 ---
