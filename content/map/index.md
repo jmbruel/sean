@@ -45,6 +45,7 @@ sections:
             { name: 'Antonia Bertolina', country: 'Italy', lat: 42.3631, lng: 13.3972, org: 'Gran Sasso Science Institute' },
             { name: 'Bertrand Meyer', country: 'Switzerland', lat: 47.3769, lng: 8.5472, org: 'Constructor Institute' },
             { name: 'Gilles Perrouin', country: 'Belgium', lat: 50.4501, lng: 4.4699, org: 'University of Namur' },
+            { name: 'Jordi Cabot', country: 'Luxembourg', lat: 49.75, lng: 6.16, org: 'Luxembourg Institute of Science and Technology' },
             { name: 'Steffen Zschaler', country: 'United Kingdom', lat: 51.5074, lng: -0.1278, org: 'Kings College London' },
             { name: 'Timo Kehrer', country: 'Switzerland', lat: 46.9479, lng: 7.4474, org: 'University of Bern' }
           ];
@@ -57,6 +58,7 @@ sections:
             'Italy': { code: 'IT', color: '#96CEB4' },
             'Switzerland': { code: 'CH', color: '#FFEAA7' },
             'Belgium': { code: 'BE', color: '#DDA0DD' },
+            'Luxembourg': { code: 'LU', color: '#B19CD9' },
             'United Kingdom': { code: 'GB', color: '#FFB6C1' }
           };
           
