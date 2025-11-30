@@ -46,6 +46,7 @@ sections:
             { name: 'Bertrand Meyer', country: 'Switzerland', lat: 47.3769, lng: 8.5472, org: 'Constructor Institute' },
             { name: 'Gilles Perrouin', country: 'Belgium', lat: 50.4501, lng: 4.4699, org: 'University of Namur' },
             { name: 'Jordi Cabot', country: 'Luxembourg', lat: 49.75, lng: 6.16, org: 'Luxembourg Institute of Science and Technology' },
+            { name: 'Tanja Vos', country: 'Netherlands', lat: 52.1326, lng: 5.2913, org: 'Open Universiteit' },
             { name: 'Steffen Zschaler', country: 'United Kingdom', lat: 51.5074, lng: -0.1278, org: 'Kings College London' },
             { name: 'Timo Kehrer', country: 'Switzerland', lat: 46.9479, lng: 7.4474, org: 'University of Bern' }
           ];
@@ -59,6 +60,7 @@ sections:
             'Switzerland': { code: 'CH', color: '#FFEAA7' },
             'Belgium': { code: 'BE', color: '#DDA0DD' },
             'Luxembourg': { code: 'LU', color: '#B19CD9' },
+            'Netherlands': { code: 'NL', color: '#FFA500' },
             'United Kingdom': { code: 'GB', color: '#FFB6C1' }
           };
           
@@ -162,5 +164,6 @@ sections:
         | 🇧🇪 Belgium | Gilles Perrouin |
         | 🇱🇺 Luxembourg | Jordi Cabot |
         | 🇬🇧 United Kingdom | Steffen Zschaler |
+        | 🇳🇱 Netherlands | Tanja Vos |
 
 ---
