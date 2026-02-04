@@ -35,7 +35,7 @@ featured: false
 #   focal_point: Right
 
 url_code: ''
-url_pdf: 'programme.pdf'
+url_pdf: 'publication/program20260126.pdf'
 url_slides: ''
 url_video: ''
 
