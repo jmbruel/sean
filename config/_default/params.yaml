@@ -45,7 +45,7 @@ header:
 
 footer:
   copyright:
-    notice: '© {year} ACDC. This work is licensed under {license}. Last update 2025-07-08'
+    notice: '© {year} ACDC. This work is licensed under {license}. Last update 2026-02-04'
     license:
       enable: true
       allow_derivatives: false
