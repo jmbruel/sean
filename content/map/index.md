@@ -197,8 +197,8 @@ sections:
         | 🇱🇺 Luxembourg | Jordi Cabot |
         | 🇳🇱 Netherlands | Tanja Vos |
         | 🇵🇹 Portugal | Ana Moreira |
+        | 🇪🇸 Spain | Ernest Teniente |
         | 🇨🇭 Switzerland | Bertrand Meyer, Timo Kehrer |
         | 🇬🇧 United Kingdom | Steffen Zschaler |
-        | 🇪🇸 Spain | Ernest Teniente |
 
 ---
