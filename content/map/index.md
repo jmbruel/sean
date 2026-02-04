@@ -49,7 +49,8 @@ sections:
             { name: 'Tanja Vos', country: 'Netherlands', lat: 52.1326, lng: 5.2913, org: 'Open Universiteit' },
             { name: 'Steffen Zschaler', country: 'United Kingdom', lat: 51.5074, lng: -0.1278, org: 'Kings College London' },
             { name: 'Timo Kehrer', country: 'Switzerland', lat: 46.9479, lng: 7.4474, org: 'University of Bern' },
-            { name: 'Thomas Riisgaard Hansen', country: 'Denmark', lat: 56.1567, lng: 10.2108, org: 'Digital Research Centre, Denmark' }
+            { name: 'Thomas Riisgaard Hansen', country: 'Denmark', lat: 56.1567, lng: 10.2108, org: 'Digital Research Centre, Denmark' },
+            { name: 'Ernest Teniente', country: 'Spain', lat: 41.3851, lng: 2.1734, org: 'Universitat Politècnica de Catalunya' }
           ];
           
           // Country code mapping for easier lookup
@@ -63,20 +64,47 @@ sections:
             'Luxembourg': { code: 'LU', color: '#B19CD9' },
             'Netherlands': { code: 'NL', color: '#FFA500' },
             'Denmark': { code: 'DK', color: '#C0C0C0' },
-            'United Kingdom': { code: 'GB', color: '#FFB6C1' }
+            'United Kingdom': { code: 'GB', color: '#FFB6C1' },
+            'Spain': { code: 'ES', color: '#FF69B4' }
           };
           
+          // Country name mapping to handle discrepancies between our names and GeoJSON names
+          const countryNameMapping = {
+            'United States': 'United States of America',
+            'USA': 'United States of America',
+            'UK': 'United Kingdom',
+            'Russia': 'Russian Federation',
+            'Czech Republic': 'Czechia',
+            'Macedonia': 'North Macedonia',
+            'Swaziland': 'Eswatini',
+            'Cape Verde': 'Cabo Verde'
+          };
+          
+          // Function to get the correct country name for GeoJSON
+          function getGeoJsonCountryName(countryName) {
+            return countryNameMapping[countryName] || countryName;
+          }
+          
           // Create a set of unique countries with team members
-          const activeCountries = new Set(teamMembers.map(m => m.country));
+          const activeCountries = new Set(teamMembers.map(m => getGeoJsonCountryName(m.country)));
+          
+          // Debug: Log our active countries
+          console.log('Active countries from teamMembers:', Array.from(activeCountries));
           
           // Add GeoJSON layer with country highlighting
           fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
             .then(response => response.json())
             .then(data => {
+              // Debug: Log a few sample country names from GeoJSON
+              const sampleCountries = data.features.slice(0, 5).map(f => f.properties.name);
+              console.log('Sample GeoJSON country names:', sampleCountries);
+              
               L.geoJSON(data, {
                 style: function(feature) {
                   const countryName = feature.properties.name;
+                  // Debug: Log when we find a match
                   if (activeCountries.has(countryName)) {
+                    console.log('Found match for country:', countryName);
                     const color = countryData[countryName]?.color || '#90EE90';
                     return {
                       fillColor: color,
@@ -95,12 +123,15 @@ sections:
                   };
                 },
                 onEachFeature: function(feature, layer) {
-                  const countryName = feature.properties.name;
-                  if (activeCountries.has(countryName)) {
-                    const members = teamMembers.filter(m => m.country === countryName);
+                  const geoJsonCountryName = feature.properties.name;
+                  if (activeCountries.has(geoJsonCountryName)) {
+                    // Find team members by matching both original and mapped country names
+                    const members = teamMembers.filter(m => 
+                      getGeoJsonCountryName(m.country) === geoJsonCountryName
+                    );
                     const membersList = members.map(m => `<li>${m.name}</li>`).join('');
                     layer.bindPopup(`
-                      <div style="font-weight: bold; font-size: 1.1em;">${countryName}</div>
+                      <div style="font-weight: bold; font-size: 1.1em;">${geoJsonCountryName}</div>
                       <div style="margin-top: 8px;">
                         <strong>Team Members:</strong>
                         <ul style="margin: 4px 0; padding-left: 20px;">${membersList}</ul>
@@ -168,5 +199,6 @@ sections:
         | 🇵🇹 Portugal | Ana Moreira |
         | 🇨🇭 Switzerland | Bertrand Meyer, Timo Kehrer |
         | 🇬🇧 United Kingdom | Steffen Zschaler |
+        | 🇪🇸 Spain | Ernest Teniente |
 
 ---
