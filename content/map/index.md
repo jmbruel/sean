@@ -48,7 +48,8 @@ sections:
             { name: 'Jordi Cabot', country: 'Luxembourg', lat: 49.75, lng: 6.16, org: 'Luxembourg Institute of Science and Technology' },
             { name: 'Tanja Vos', country: 'Netherlands', lat: 52.1326, lng: 5.2913, org: 'Open Universiteit' },
             { name: 'Steffen Zschaler', country: 'United Kingdom', lat: 51.5074, lng: -0.1278, org: 'Kings College London' },
-            { name: 'Timo Kehrer', country: 'Switzerland', lat: 46.9479, lng: 7.4474, org: 'University of Bern' }
+            { name: 'Timo Kehrer', country: 'Switzerland', lat: 46.9479, lng: 7.4474, org: 'University of Bern' },
+            { name: 'Thomas Riisgaard Hansen', country: 'Denmark', lat: 56.1567, lng: 10.2108, org: 'Digital Research Centre, Denmark' }
           ];
           
           // Country code mapping for easier lookup
@@ -61,6 +62,7 @@ sections:
             'Belgium': { code: 'BE', color: '#DDA0DD' },
             'Luxembourg': { code: 'LU', color: '#B19CD9' },
             'Netherlands': { code: 'NL', color: '#FFA500' },
+            'Denmark': { code: 'DK', color: '#C0C0C0' },
             'United Kingdom': { code: 'GB', color: '#FFB6C1' }
           };
           
@@ -156,14 +158,15 @@ sections:
         
         | Country | Members |
         |---------|---------|
-        | 🇫🇷 France | Jean-Michel Bruel |
-        | 🇨🇦 Canada | Sébastien Mosser |
-        | 🇵🇹 Portugal | Ana Moreira |
-        | 🇮🇹 Italy | Antonia Bertolina |
-        | 🇨🇭 Switzerland | Bertrand Meyer, Timo Kehrer |
         | 🇧🇪 Belgium | Gilles Perrouin |
+        | 🇨🇦 Canada | Sébastien Mosser |
+        | 🇩🇰 Denmark | Thomas Riisgaard Hansen |
+        | 🇫🇷 France | Jean-Michel Bruel |
+        | 🇮🇹 Italy | Antonia Bertolina |
         | 🇱🇺 Luxembourg | Jordi Cabot |
-        | 🇬🇧 United Kingdom | Steffen Zschaler |
         | 🇳🇱 Netherlands | Tanja Vos |
+        | 🇵🇹 Portugal | Ana Moreira |
+        | 🇨🇭 Switzerland | Bertrand Meyer, Timo Kehrer |
+        | 🇬🇧 United Kingdom | Steffen Zschaler |
 
 ---
