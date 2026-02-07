@@ -134,10 +134,12 @@ sections:
           console.log('Member countries from teamMembers:', Array.from(memberCountryNames));
           
           // Add GeoJSON layer with country highlighting
-          const geoJsonUrl = '{{ "data/countries.geo.json" | relURL }}';
+          const geoJsonUrl = '../data/countries.geo.json';
+          console.log('GeoJSON URL:', geoJsonUrl);
           fetch(geoJsonUrl)
             .then(response => response.json())
             .then(data => {
+              console.log('GeoJSON loaded, features:', data?.features?.length || 0);
               // Debug: Log a few sample country names from GeoJSON
               const sampleCountries = data.features.slice(0, 5).map(f => f.properties.name);
               console.log('Sample GeoJSON country names:', sampleCountries);
