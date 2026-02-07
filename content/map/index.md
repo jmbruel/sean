@@ -134,7 +134,8 @@ sections:
           console.log('Member countries from teamMembers:', Array.from(memberCountryNames));
           
           // Add GeoJSON layer with country highlighting
-          fetch('/data/countries.geo.json')
+          const geoJsonUrl = '{{ "data/countries.geo.json" | relURL }}';
+          fetch(geoJsonUrl)
             .then(response => response.json())
             .then(data => {
               // Debug: Log a few sample country names from GeoJSON
@@ -200,6 +201,9 @@ sections:
                   }
                 }
               }).addTo(map);
+            })
+            .catch(err => {
+              console.error('Failed to load GeoJSON from', geoJsonUrl, err);
             });
           
           // Add markers for each team member
