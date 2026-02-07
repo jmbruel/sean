@@ -85,11 +85,22 @@ sections:
             return countryNameMapping[countryName] || countryName;
           }
           
-          // Create a set of unique countries with team members
-          const activeCountries = new Set(teamMembers.map(m => getGeoJsonCountryName(m.country)));
+          // Governance board members list for country highlighting
+          const governanceBoardMembers = [
+            'Sébastien Mosser', 'Ana Moreira', 'Antonia Bertolina', 'Bertrand Meyer', 
+            'Gilles Perrouin', 'Jordi Cabot', 'Tanja Vos', 'Steffen Zschaler', 
+            'Thomas Riisgaard Hansen', 'Ernest Teniente'
+          ];
           
-          // Debug: Log our active countries
-          console.log('Active countries from teamMembers:', Array.from(activeCountries));
+          // Create a set of unique countries with governance board members
+          const governanceCountries = new Set(
+            teamMembers
+              .filter(m => governanceBoardMembers.includes(m.name))
+              .map(m => getGeoJsonCountryName(m.country))
+          );
+          
+          // Debug: Log our governance countries
+          console.log('Governance countries from teamMembers:', Array.from(governanceCountries));
           
           // Add GeoJSON layer with country highlighting
           fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
@@ -103,8 +114,8 @@ sections:
                 style: function(feature) {
                   const countryName = feature.properties.name;
                   // Debug: Log when we find a match
-                  if (activeCountries.has(countryName)) {
-                    console.log('Found match for country:', countryName);
+                  if (governanceCountries.has(countryName)) {
+                    console.log('Found governance match for country:', countryName);
                     const color = countryData[countryName]?.color || '#90EE90';
                     return {
                       fillColor: color,
@@ -124,16 +135,17 @@ sections:
                 },
                 onEachFeature: function(feature, layer) {
                   const geoJsonCountryName = feature.properties.name;
-                  if (activeCountries.has(geoJsonCountryName)) {
-                    // Find team members by matching both original and mapped country names
+                  if (governanceCountries.has(geoJsonCountryName)) {
+                    // Find governance board members by matching both original and mapped country names
                     const members = teamMembers.filter(m => 
-                      getGeoJsonCountryName(m.country) === geoJsonCountryName
+                      getGeoJsonCountryName(m.country) === geoJsonCountryName && 
+                      governanceBoardMembers.includes(m.name)
                     );
                     const membersList = members.map(m => `<li>${m.name}</li>`).join('');
                     layer.bindPopup(`
                       <div style="font-weight: bold; font-size: 1.1em;">${geoJsonCountryName}</div>
                       <div style="margin-top: 8px;">
-                        <strong>Team Members:</strong>
+                        <strong>Governance Board Members:</strong>
                         <ul style="margin: 4px 0; padding-left: 20px;">${membersList}</ul>
                       </div>
                     `);
@@ -174,7 +186,7 @@ sections:
                 <span style="display: inline-block; width: 12px; height: 12px; background-color: #1976d2; border-radius: 50%; margin-right: 6px;"></span> Team Member
               </div>
               <div style="font-size: 0.9em; margin-bottom: 6px;">
-                <span style="display: inline-block; width: 12px; height: 12px; background-color: #FF6B6B; opacity: 0.4; margin-right: 6px;"></span> Country with Team
+                <span style="display: inline-block; width: 12px; height: 12px; background-color: #FF6B6B; opacity: 0.4; margin-right: 6px;"></span> Country with Governance Board
               </div>
               <div style="font-size: 0.85em; color: #666; margin-top: 8px;">
                 Click markers or countries for details
