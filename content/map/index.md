@@ -85,25 +85,56 @@ sections:
             return countryNameMapping[countryName] || countryName;
           }
           
-          // Governance board members list for country highlighting
-          const governanceBoardMembers = [
-            'Sébastien Mosser', 'Ana Moreira', 'Antonia Bertolina', 'Bertrand Meyer', 
-            'Gilles Perrouin', 'Jordi Cabot', 'Tanja Vos', 'Steffen Zschaler', 
-            'Thomas Riisgaard Hansen', 'Ernest Teniente'
-          ];
-          
-          // Create a set of unique countries with governance board members
-          const governanceCountries = new Set(
-            teamMembers
-              .filter(m => governanceBoardMembers.includes(m.name))
-              .map(m => getGeoJsonCountryName(m.country))
+          // Normalize helper for robust country matching
+          function normalizeCountryName(name) {
+            return (name || '').toLowerCase().trim();
+          }
+
+          // Helper to read country identifiers from GeoJSON, regardless of schema variants
+          function getFeatureCountryName(feature) {
+            const props = feature.properties || {};
+            return (
+              props.name ||
+              props.NAME ||
+              props.admin ||
+              props.ADMIN ||
+              props.name_long ||
+              props.NAME_LONG ||
+              props.sovereignt ||
+              props.SOVEREIGNT ||
+              ''
+            );
+          }
+
+          function getFeatureCountryCode(feature) {
+            const props = feature.properties || {};
+            return (
+              props.iso_a2 ||
+              props.ISO_A2 ||
+              props.iso_a3 ||
+              props.ISO_A3 ||
+              ''
+            );
+          }
+
+          // Index country data by code for quick lookup
+          const countryDataByCode = Object.fromEntries(
+            Object.entries(countryData).map(([name, info]) => [info.code, { ...info, name }])
+          );
+
+          // Create sets of unique member countries (by code and by name)
+          const memberCountryCodes = new Set(
+            teamMembers.map(m => countryData[m.country]?.code).filter(Boolean)
+          );
+          const memberCountryNames = new Set(
+            teamMembers.map(m => normalizeCountryName(getGeoJsonCountryName(m.country)))
           );
           
-          // Debug: Log our governance countries
-          console.log('Governance countries from teamMembers:', Array.from(governanceCountries));
+          // Debug: Log our member countries
+          console.log('Member countries from teamMembers:', Array.from(memberCountryNames));
           
           // Add GeoJSON layer with country highlighting
-          fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
+          fetch('/data/countries.geo.json')
             .then(response => response.json())
             .then(data => {
               // Debug: Log a few sample country names from GeoJSON
@@ -112,11 +143,19 @@ sections:
               
               L.geoJSON(data, {
                 style: function(feature) {
-                  const countryName = feature.properties.name;
+                  const featureName = getFeatureCountryName(feature);
+                  const featureCode = getFeatureCountryCode(feature);
+                  const normalizedFeatureName = normalizeCountryName(featureName);
+                  const isMemberCountry =
+                    (featureCode && memberCountryCodes.has(featureCode)) ||
+                    (normalizedFeatureName && memberCountryNames.has(normalizedFeatureName));
                   // Debug: Log when we find a match
-                  if (governanceCountries.has(countryName)) {
-                    console.log('Found governance match for country:', countryName);
-                    const color = countryData[countryName]?.color || '#90EE90';
+                  if (isMemberCountry) {
+                    console.log('Found member match for country:', featureName || featureCode);
+                    const color =
+                      (featureCode && countryDataByCode[featureCode]?.color) ||
+                      countryData[featureName]?.color ||
+                      '#90EE90';
                     return {
                       fillColor: color,
                       weight: 2,
@@ -126,26 +165,35 @@ sections:
                     };
                   }
                   return {
-                    fillColor: '#f0f0f0',
+                    fillColor: '#e9eef3',
                     weight: 1,
-                    opacity: 0.3,
-                    color: '#ccc',
-                    fillOpacity: 0.1
+                    opacity: 0.6,
+                    color: '#b5c0cc',
+                    fillOpacity: 0.25
                   };
                 },
                 onEachFeature: function(feature, layer) {
-                  const geoJsonCountryName = feature.properties.name;
-                  if (governanceCountries.has(geoJsonCountryName)) {
-                    // Find governance board members by matching both original and mapped country names
-                    const members = teamMembers.filter(m => 
-                      getGeoJsonCountryName(m.country) === geoJsonCountryName && 
-                      governanceBoardMembers.includes(m.name)
-                    );
+                  const featureName = getFeatureCountryName(feature);
+                  const featureCode = getFeatureCountryCode(feature);
+                  const normalizedFeatureName = normalizeCountryName(featureName);
+                  const isMemberCountry =
+                    (featureCode && memberCountryCodes.has(featureCode)) ||
+                    (normalizedFeatureName && memberCountryNames.has(normalizedFeatureName));
+                  if (isMemberCountry) {
+                    // Find members by matching country codes first, then fallback to normalized names
+                    const members = teamMembers.filter(m => {
+                      const memberCode = countryData[m.country]?.code || '';
+                      const memberName = normalizeCountryName(getGeoJsonCountryName(m.country));
+                      return (
+                        (featureCode && memberCode && featureCode === memberCode) ||
+                        (normalizedFeatureName && memberName === normalizedFeatureName)
+                      );
+                    });
                     const membersList = members.map(m => `<li>${m.name}</li>`).join('');
                     layer.bindPopup(`
-                      <div style="font-weight: bold; font-size: 1.1em;">${geoJsonCountryName}</div>
+                      <div style="font-weight: bold; font-size: 1.1em;">${featureName || featureCode}</div>
                       <div style="margin-top: 8px;">
-                        <strong>Governance Board Members:</strong>
+                        <strong>Team Members:</strong>
                         <ul style="margin: 4px 0; padding-left: 20px;">${membersList}</ul>
                       </div>
                     `);
@@ -186,7 +234,7 @@ sections:
                 <span style="display: inline-block; width: 12px; height: 12px; background-color: #1976d2; border-radius: 50%; margin-right: 6px;"></span> Team Member
               </div>
               <div style="font-size: 0.9em; margin-bottom: 6px;">
-                <span style="display: inline-block; width: 12px; height: 12px; background-color: #FF6B6B; opacity: 0.4; margin-right: 6px;"></span> Country with Governance Board
+                <span style="display: inline-block; width: 12px; height: 12px; background-color: #FF6B6B; opacity: 0.4; margin-right: 6px;"></span> Country with Members
               </div>
               <div style="font-size: 0.85em; color: #666; margin-top: 8px;">
                 Click markers or countries for details
