@@ -1,5 +1,5 @@
 ---
-title: Séminaire sur la stratégie Europe INS2I
+title: INS2I Europe strategy Seminar
 
 event: INS2I
 event_url: https://www.ins2i.cnrs.fr/en/international
@@ -12,7 +12,7 @@ location: Bruxelles, Belgique
 #   postcode: '94305'
 #   country: United States
 
-summary: Séminaire sur la stratégie Europe de l'institut {{< ins2i >}} (Sciences Informatiques)
+summary: I was invited on this seminar on European strategy of the {{< ins2i >}} (Sciences Informatiques).
 abstract: 
 
 # Talk start and end times.
