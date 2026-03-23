@@ -1,0 +1,53 @@
+{{/* Local table shortcode replacement for HugoBlox (avoid missing getCSV function). */}}
+{{ $src := .Get "path" }}
+{{ if not $src }}{{ errorf "table shortcode requires 'path' parameter" }}{{ end }}
+{{ $delimiter := .Get "delimiter" | default "," }}
+{{ $useHeaderRow := (eq (lower (.Get "header")) "true") | default true }}
+{{ $caption := .Get "caption" }}
+
+{{ $content := "" }}
+{{ if strings.HasPrefix $src "http" }}
+  {{ errorf "table shortcode remote CSV not supported in this site (%s)" $src }}
+{{ else }}
+  {{ $path := path.Join "content" .Page.File.Dir $src }}
+  {{ $content = readFile $path }}
+{{ end }}
+
+{{ if not $content }}{{ errorf "table shortcode cannot read CSV from %q" $src }}{{ end }}
+
+{{ $lines := split (trim $content) "\n" }}
+{{ $rows := slice }}
+{{ range $line := $lines }}
+  {{ $cells := split $line $delimiter }}
+  {{ $rows = append $rows $cells }}
+{{ end }}
+
+<table class="table">
+  {{ if and $useHeaderRow (gt (len $rows) 0) }}
+    {{ $headerRow := index $rows 0 }}
+    {{ $rows = after 1 $rows }}
+    <thead>
+      <tr>
+        {{ range $headerRow }}
+          <th>{{ . | markdownify | emojify }}</th>
+        {{ end }}
+      </tr>
+    </thead>
+  {{ end }}
+  <tbody>
+    {{ range $rows }}
+      <tr>
+        {{ range . }}
+          {{ if (findRE "^\\d+$" .) }}
+            <td data-table-dtype="number">{{ . }}</td>
+          {{ else }}
+            <td data-table-dtype="text">{{ . | markdownify | emojify }}</td>
+          {{ end }}
+        {{ end }}
+      </tr>
+    {{ end }}
+  </tbody>
+  {{ if $caption }}
+    <caption>{{ $caption | markdownify | emojify }}</caption>
+  {{ end }}
+</table>
